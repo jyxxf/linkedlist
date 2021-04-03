@@ -1,0 +1,1 @@
+The project creats an easy linkedlist.I didn't deal with invalid return values.
