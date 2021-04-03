@@ -4,7 +4,6 @@ void linkedlist_add(Node** head, char ch){
     Node *p = (Node *)malloc(sizeof(Node));
     p->next = NULL;
     p->value = ch;
-
     if(*head){
         Node *last = *head;
 
