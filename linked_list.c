@@ -4,8 +4,10 @@ void linkedlist_add(Node** head, char ch){
     Node *p = (Node *)malloc(sizeof(Node));
     p->next = NULL;
     p->value = ch;
+
     if(*head){
         Node *last = *head;
+
         while(last->next)
             last = last->next;
         last->next = p;
@@ -21,6 +23,7 @@ void linkedlist_print_all_value(Node **head){
 }
 
 int linkedlist_count_value(Node **head, char ch){
+
     int i=0;
     for (Node *p = (*head); p;p=p->next){
         if(p->value==ch)
@@ -64,6 +67,7 @@ void linkedlist_destroy(Node **head){
         free(before);
     }
 }
+
 void linkedlist_insert_value_atfer_node(Node** head, Node* node, char ch) {
     for (Node* p = *head;p;p = p->next) {
         if (p == node) {
