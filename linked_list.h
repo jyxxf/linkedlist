@@ -1,21 +1,20 @@
 #ifndef _LINKEDLIST_H_
 #define _LINKEDLIST_H_
 
-#include <stdlib.h>
-#include <stdio.h>
-typedef struct _node Node;
+typedef char type;
 
-typedef struct _node
+struct _node
 {
-    char value;
-    Node *next;
-} Node;
+    type value;
+    struct _node *next;
+};
 
-void linkedlist_add(Node** head, char ch);
-void linkedlist_print_all_value(Node **head);
-void linkedlist_find_node(Node **head, char ch, Node *result[]);
-int linkedlist_count_value(Node **head, char ch);
-int linkedlist_delete_node(Node **head, Node *del_node);
-void linkedlist_insert_value_atfer_node(Node **head, Node *node, char ch);
-void linkedlist_destroy(Node **head);
+void delete_linkedlist_node(struct _node *node_before_want_delete);
+void insert_linkedlist_node(struct _node *node, type ch);
+void destroy_linkedlist(struct _node *head);
+struct _node *create_linkedlist(void);
+struct _node *get_node_at_pisition_i(struct _node *head, size_t index);
+struct _node *get_node_match_fun(struct _node *head, type value, size_t *index, int fun(type, type));
+struct _node *get_node_before_parameter_node(struct _node *head, struct _node *node);
+
 #endif

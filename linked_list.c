@@ -1,79 +1,106 @@
 #include "linked_list.h"
+#include <stdlib.h>
 
-void linkedlist_add(Node** head, char ch){
-    Node *p = (Node *)malloc(sizeof(Node));
-    p->next = NULL;
-    p->value = ch;
-    if(*head){
-        Node *last = *head;
-
-        while(last->next)
-            last = last->next;
-        last->next = p;
-    }else
-        (*head) = p;
+/**
+ * @brief 删除node_before_want_delete后的节点
+ *
+ * @param node_before_want_delete
+ */
+void delete_linkedlist_node(struct _node *node_before_want_delete)
+{
+    struct _node *temp = node_before_want_delete->next->next;
+    free(node_before_want_delete->next);
+    node_before_want_delete->next = temp;
 }
 
-void linkedlist_print_all_value(Node **head){
-    printf("all value: ");
-    for (Node *p = (*head); p; p = p->next)
-        printf("%c ", p->value);
-    printf("\n");
+void destroy_linkedlist(struct _node *head)
+{
+    struct _node *p = head;
+    struct _node *p_next = p->next;
+    while (p->next)
+    {
+        free(p);
+        p = p_next;
+        p_next = p->next;
+    }
+    free(p);
 }
 
-int linkedlist_count_value(Node **head, char ch){
-
-    int i=0;
-    for (Node *p = (*head); p;p=p->next){
-        if(p->value==ch)
-            i++;
-    }
-    return i;
+/**
+ * @brief 在node节点（可以是头节点）后插入新的节点
+ *
+ * @param node
+ * @param ch
+ */
+void insert_linkedlist_node(struct _node *node, type ch)
+{
+    struct _node *temp = node->next;
+    node->next = malloc(sizeof(struct _node));
+    node->next->value = ch;
+    node->next->next = temp;
 }
 
-void linkedlist_find_node(Node **head, char ch,Node* result[]){
-    size_t i = 0;
-    for (Node *p = (*head); p;p=p->next){
-        if(p->value==ch){
-            result[i] = p;
-            i++;
-        }
-    }
+struct _node *create_linkedlist(void)
+{
+    struct _node *head = malloc(sizeof(struct _node));
+    head->next = NULL;
+    return head;
 }
 
-int linkedlist_delete_node(Node **head, Node* del_node){
-    Node* before = (*head);
-    if((*head)==del_node){
-        (*head) = del_node->next;
-        free(del_node);
-        return 1;
+/**
+ * @brief 获得从head开始第i个节点指针
+ *
+ * @param head
+ * @param index head节点本身为位置0
+ * @return struct _node*
+ */
+struct _node *get_node_at_pisition_i(struct _node *head, size_t index)
+{
+    while (index--)
+    {
+        if (head)
+            head = head->next;
     }
-    for (Node *p = (*head); p; p = p->next){
-        if (p == del_node){
-            before->next = del_node->next;
-        free(del_node);
-        return 1;
-        }else
-        before = p;
-    }
-    return 0;
+    return head;
 }
 
-void linkedlist_destroy(Node **head){
-    Node *before = (*head);
-    for (Node *p = before; p; before = p){
-        p = p->next;
-        free(before);
+/**
+ * @brief 找到满足fun关系式的node返回并设置它的索引
+ *
+ * @param head
+ * @param value
+ * @param index head本身为索引0
+ * @param fun 满足条件时返回1
+ * @return struct _node*
+ */
+struct _node *get_node_match_fun(struct _node *head, type value, size_t *index, int fun(type, type))
+{
+    *index = 0;
+    while (head)
+    {
+        if (fun(head->value, value))
+            break;
+        else
+            head = head->next;
+        (*index)++;
     }
+    return head;
 }
 
-void linkedlist_insert_value_atfer_node(Node** head, Node* node, char ch) {
-    for (Node* p = *head;p;p = p->next) {
-        if (p == node) {
-            Node* new_node = (Node*)malloc(sizeof(Node));
-            new_node->value = ch;
-            new_node->next = p->next;
-            p->next = new_node;
-        }
+/**
+ * @brief 找到前一个节点
+ *
+ * @param head
+ * @param node
+ * @return struct _node*
+ */
+struct _node *get_node_before_parameter_node(struct _node *head, struct _node *node)
+{
+    while (head)
+    {
+        if (head->next == node)
+            break;
+        head = head->next;
     }
+    return head;
 }
